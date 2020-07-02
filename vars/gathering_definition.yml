@@ -1,0 +1,6 @@
+---
+command:
+  - cat /etc/zabbix/zabbix_agentd.conf
+  - cat /etc/logrotate.d/zabbix-agent
+  - systemctl status zabbix-agent
+  - systemctl list-unit-files | grep zabbix-agent.service

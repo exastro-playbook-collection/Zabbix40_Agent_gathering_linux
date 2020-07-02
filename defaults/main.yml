@@ -1,0 +1,23 @@
+---
+VAR_Zabbix_Agent_gathering_dest: "{{ playbook_dir }}/_gathered_data"
+
+# The following parameters can be specified externally by the user.
+# for Zabbix40-Agent_install
+VAR_Zabbix40AG_DestPathName: "/tmp/zabbix_agent"
+
+# for Zabbix40-Agent_regist
+VAR_Zabbix40AG_serverregist: "yes"
+VAR_Zabbix40AG_APITempPath: /tmp/zbx_api
+VAR_Zabbix40AG_Username: Admin
+VAR_Zabbix40AG_Password: zabbix
+VAR_Zabbix40AG_ServerAddress: http://192.168.1.1:80/zabbix/
+VAR_Zabbix40AG_Hostname: ""
+VAR_Zabbix40AG_DisplayName: ""
+VAR_Zabbix40AG_HostIP: ""
+VAR_Zabbix40AG_AgentPort: 10050
+VAR_Zabbix40AG_SnmpPort: 161
+VAR_Zabbix40AG_HostGroups:
+  - 'linux_zabbix'
+VAR_Zabbix40AG_Templates:
+  - 'Template OS Linux'
+

@@ -1,0 +1,45 @@
+---
+# check Zabbix-agent installed
+- name: Check Zabbix-agent is already installed
+  block:
+  - name: Check zabbix_agentd.conf is exists
+    stat: path="/etc/zabbix/zabbix_agentd.conf"
+    register: status
+
+  - name: Prompt error message
+    fail:
+      msg: "/etc/zabbix/zabbix_agentd.conf does not exist"
+    when: not status.stat.exists
+    
+  - name: Check zabbix-agent is exists
+    stat: path="/etc/logrotate.d/zabbix-agent"
+    register: status
+
+  - name: Prompt error message
+    fail:
+      msg: "/etc/logrotate.d/zabbix-agent does not exist"
+    when: not status.stat.exists
+
+- name: import roles
+  import_role:
+    name: '{{ playbook_dir }}/roles/gathering'
+  vars:
+    VAR_gathering_definition_role_path: '{{ playbook_dir }}/roles/Zabbix40_Agent_gathering_linux'
+    i_gathering_label: 'Zabbix40_Agent_gathering_linux'
+
+- name: Copy data
+  copy:
+    src: "{{ gathered_data_dest }}/"
+    dest: "{{ VAR_Zabbix_Agent_gathering_dest }}/{{ inventory_hostname }}/Zabbix40_Agent_gathering_linux"
+  delegate_to: localhost
+  become: no
+
+- name: create the input_parameter.json for zabbix-agent install
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ VAR_Zabbix_Agent_gathering_dest }}/{{ inventory_hostname }}/Zabbix40_Agent_gathering_linux/{{ item }}.json"
+  delegate_to: localhost
+  with_items:
+    - "input_parameter_install"
+    - "input_parameter_regist"
+  become: no
